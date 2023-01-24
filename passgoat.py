@@ -3,95 +3,6 @@ import sys, os, shelve
 
 from src.colors import Colors
 from src.states import GameStates
-'''
-TODO:
-- make something to handle events
-- figure out program structure
-    - UPDATE POSITIONS/LOOKS -> DRAW AND UPDATE -> 
-'''
-
-ANTI = False
-
-class GameObject:
-
-    def __init__(self) -> None:
-        self.x = 0
-        self.y = 0
-        self.w = 0
-        self.h = 0
-        self.surface = pg.Surface((1, 1))
-        self.redraw = True
-    
-    def change_x(self, x : float) -> None:
-        self.x = x
-    
-    def change_y(self, y : float) -> None:
-        self.y = y
-    
-    def change_pos(self, x : float, y : float) -> None:
-        self.change_x(x)
-        self.change_y(y)
-
-    def update(self) -> None:
-        '''
-        updates values and stuff
-        '''
-        pass
-
-    def draw(self, surface : pg.Surface, update_rects : list) -> None:
-        if not self.redraw:
-            return
-        surface.blit(self.surface, (self.x, self.y))
-        update_rects.append((self.x, self.y, self.w, self.h))
-        self.redraw = False
-
-class TextLabel(GameObject):
-
-    def __init__(self, text : str, font : pg.font.Font, color : pg.Color):
-        super().__init__()
-        self.font = font
-        self.color = color
-        self.text = text
-        self.change_text(self.text) # initialize the surface
-    def change_text(self, text : str) -> None:
-        self.text = text # sets a new text
-        self.surface = self.font.render(self.text, ANTI, self.color) # renders that text
-        self.w, self.h = self.surface.get_width(), self.surface.get_height() # sets the width and height for later
-    def change_color(self, new_color : pg.Color) -> None:
-        self.color = new_color # changes the color
-        self.change_text(self.text) # updates the text label with the new color
-    def center_x(self, x : float):
-        self.x = (x - self.w) / 2
-    def center_y(self, y : float):
-        self.y = (y - self.h) / 2
-
-class ButtonText(TextLabel):
-    
-    def __init__(self, text: str, font: pg.font.Font, color: pg.Color, hover_color: pg.Color):
-        self.hover_color = hover_color
-        self.hovered = True
-        super().__init__(text, font, color)
-        
-    def change_text(self, text : str) -> None:
-        self.text = text # sets a new text
-        self.surface = self.font.render(self.text, ANTI, self.color) # renders that text
-        self.inactive_surface = self.font.render(self.text, ANTI, self.hover_color) 
-        self.w, self.h = self.surface.get_width(), self.surface.get_height() # sets the width and height for later
-
-    def update(self) -> None:
-        if self.surface.get_rect().collidepoint(pg.mouse.get_pos()[0], pg.mouse.get_pos()[1]):
-            temp = self.surface
-            self.surface = self.inactive_surface
-            self.inactive_surface = temp
-            self.redraw = True
-
-
-    def draw(self, surface : pg.Surface, update_rects : list) -> None:
-        if not self.redraw:
-            return
-        surface.blit(self.surface, (self.x, self.y))
-        update_rects.append((self.x, self.y, self.w, self.h))
-        self.redraw = False
 
 class Passgoat:
     def __init__(self) -> None:
@@ -109,22 +20,12 @@ class Passgoat:
         self.state = GameStates.TITLE
         self.font = {}
         self.load_fonts()
-        self.create_game_objects()
         self.update_rects.append(self.screen.get_rect()) # for first draw
 
     def decorate_window(self) -> None:
         pg.display.set_caption('Passgoat')
         self.icon = pg.image.load(os.path.join(self.asset_directory, 'icon.png')).convert()
         pg.display.set_icon(self.icon)
-    
-    def create_game_objects(self) -> None:
-        self.game_objects['title'] = TextLabel('PASSGOAT', self.font['extralarge'], Colors.RED)
-        self.game_objects['title'].center_x(self.WIN_SIZE[0])
-        self.game_objects['title'].change_y(40)
-        self.game_objects['caption'] = TextLabel('mehhhhhhhhhhh', self.font['tiny'], Colors.BLUE)
-        self.game_objects['caption'].center_x(self.WIN_SIZE[0])
-        self.game_objects['caption'].change_y(100)
-        self.game_objects['play'] = ButtonText('play', self.font['extralarge'], Colors.RED, Colors.BLACK)
 
     def load_fonts(self) -> None:
         font_path = os.path.join(self.asset_directory, 'font.ttf')
@@ -163,10 +64,7 @@ class Passgoat:
                 self.run = False
         self.screen.fill(Colors.WHITE) # usually not done like this, but it is an exception 
         if self.state == GameStates.TITLE:
-            self.active_objects.append(self.game_objects['title'])
-            self.active_objects.append(self.game_objects['caption'])
-            self.active_objects.append(self.game_objects['play'])
-
+            pass
         elif self.state == GameStates.IN_GAME:
             pass
         elif self.state == GameStates.PAUSE:
@@ -182,13 +80,13 @@ class Passgoat:
         '''
         this method should NEVER try and update anything! it just renders
         '''
+        print(self.clock.get_fps())
         for object in self.active_objects:
             object.update()
-            object.draw(self.screen, self.update_rects)
+            self.update_rects.append(object.draw(self.screen))
         pg.display.update(self.update_rects)
         self.update_rects.clear()
         self.active_objects.clear()
-        print(self.clock.get_fps())
         self.clock.tick_busy_loop()
         
 
