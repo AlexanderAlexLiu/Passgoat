@@ -146,6 +146,7 @@ class Game:
                 self.all_objects['cheat'].add_to(self.active_objects)
             elif self.state == GameStates.PAUSE:
                 self.all_objects['pause'].add_to(self.active_objects)
+                #TEST
                 self.all_objects['quit_button'].add_to(self.active_objects)
                 self.all_objects['resume_button'].add_to(self.active_objects)
             elif self.state == GameStates.GAME_OVER:
