@@ -1,3 +1,10 @@
+'''
+Alex Liu
+2023-01-25
+A number guessing game
+
+For Rachel
+'''
 import os
 
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
