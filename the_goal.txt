@@ -1,0 +1,8 @@
+use map for appending to lists
+use multiple assignments instead of 1 per line
+list comprehension is better
+only import things you need
+using .join for strings is better
+use built in functions
+use "in" to check membership
+use sets and unions

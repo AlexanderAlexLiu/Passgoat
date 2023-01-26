@@ -1,10 +1,11 @@
 '''
-Alex Liu
-2023-01-25
-A number guessing game
-
-For Rachel
+Author: Alex Liu
+Date: 2023-01-25
+Description: A number guessing game
+Note: For Rachel
+Extra: REFACTOR 1
 '''
+
 import os
 
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
@@ -16,7 +17,7 @@ from src.states import GameStates
 from src.text_label import TextLabel
 from src.button import Button
 from src.colors import Colors
-from math import floor
+
 ALIAS = True
 class Game:
     def __init__(self) -> None:
@@ -115,7 +116,7 @@ class Game:
         ))
     def handle_events(self):
         for event in pg.event.get():
-            print(event)
+            #print(event)
             match event.type:
                 case pg.QUIT:
                     self.run = False
@@ -162,6 +163,7 @@ class Game:
         
     def update_render(self):
         self.surface.fill(Colors.WHITE)
+        #print(self.clock.get_fps())
         for obj in self.active_objects:
             obj.draw(self.surface)
         pg.display.update(self.update_list)
