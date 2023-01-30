@@ -1,5 +1,6 @@
 # Custom
-/gamevenv
+/.vscode
+/cx_freeze setup
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
