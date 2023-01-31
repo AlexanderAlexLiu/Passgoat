@@ -2,7 +2,7 @@
 Alex Liu
 2023-01-31
 
-Font class to keep the fonts in-game
+Font class to use fonts in-game
 '''
 import pygame.font as font
 import os
