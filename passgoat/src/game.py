@@ -6,6 +6,10 @@ For Rachel
 '''
 
 
+import pygame as pg
+from button_label import ButtonLabel
+from text_label import TextLabel
+from colors import Colors
 import os
 import sys
 import math
@@ -15,10 +19,6 @@ from enum import Enum
 # hides the extra text when importing pygame
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
-from colors import Colors
-from text_label import TextLabel
-from button_label import ButtonLabel
-import pygame as pg
 
 class State(Enum):
     TITLE = 0
@@ -66,62 +66,98 @@ class Game:
         self.state_init = False
         self.surface = pg.display.set_mode(self.SIZE)
         self.decorate_window()
-    
+
     def placeholder_click(self, arg) -> None:
         print('I WAS CLICKED + ' + arg)
-    
+
     def quit_game(self) -> None:
         sys.exit()
-    
-    def change_state(self, to_state : State) -> None:
+
+    def change_state(self, to_state: State) -> None:
         self.state = to_state
         self.state_init = False
 
+    def delete_save(self) -> None:
+        print('DELETE')
+
     def create_all_objects(self) -> None:
         # TITLE ADD THE TINY GOAT AND WE SHOULD BE DONE HERE
-        self.all_objects['title.label'] = TextLabel(self.font[3], 'PASSGOAT', Colors.RED)
+        self.all_objects['title.label'] = TextLabel(
+            self.font[3], 'PASSGOAT', Colors.RED)
         self.all_objects['title.label'].center(do_x=True)
         self.all_objects['title.label'].move_to(y=40)
-        self.all_objects['title.caption'] = TextLabel(self.font[0], 'mehhhhhhhhhhhh', Colors.BLUE)
+        self.all_objects['title.caption'] = TextLabel(
+            self.font[0], 'mehhhhhhhhhhhh', Colors.BLUE)
         self.all_objects['title.caption'].center(do_x=True)
         self.all_objects['title.caption'].move_to(y=90)
-        self.all_objects['title.play'] = ButtonLabel(self.font[2], 'Play', Colors.RED, Colors.ORANGE, Colors.BLUE, self.change_state, State.INGAME)
+        self.all_objects['title.play'] = ButtonLabel(
+            self.font[2], 'Play', Colors.RED, Colors.ORANGE, Colors.BLUE, self.change_state, State.INGAME)
         self.all_objects['title.play'].move_to(200, 200)
-        self.all_objects['title.options'] = ButtonLabel(self.font[2], 'Options', Colors.RED, Colors.ORANGE, Colors.BLUE, self.change_state, State.OPTIONS)
+        self.all_objects['title.options'] = ButtonLabel(
+            self.font[2], 'Options', Colors.RED, Colors.ORANGE, Colors.BLUE, self.change_state, State.OPTIONS)
         self.all_objects['title.options'].move_to(300, 200)
-        self.all_objects['title.quit'] = ButtonLabel(self.font[2], 'Quit', Colors.GREY, Colors.GREEN, Colors.CYAN, self.quit_game)
+        self.all_objects['title.quit'] = ButtonLabel(
+            self.font[2], 'Quit', Colors.GREY, Colors.GREEN, Colors.CYAN, self.quit_game)
         self.all_objects['title.quit'].center(do_x=True)
         self.all_objects['title.quit'].move_to(y=270)
 
         # OPTIONS
-        self.all_objects['options.label'] = TextLabel(self.font[3], 'OPTIONS', Colors.RED)
+        self.all_objects['options.label'] = TextLabel(
+            self.font[3], 'OPTIONS', Colors.RED)
         self.all_objects['options.label'].center(do_x=True)
         self.all_objects['options.label'].move_to(y=40)
         '''GOT TO INCLUDE SOME SETTINGS TO TWEAK'''
+        self.all_objects['options.delete_hs'] = ButtonLabel(
+            self.font[1], 'Delete Scores', Colors.RED, Colors.ORANGE, Colors.BLUE, self.delete_save)
+        self.all_objects['options.delete_hs'].center(do_x=True)
+        self.all_objects['options.delete_hs'].move_to(y=100)
         # 5 Digit Mode? -> Included in the scroller
         # Up to 10 Digit Mode? -> Make a scroller : add warning of > 5 digits
         # Delete HS -> Just deletes the file, don't know why you'd want to do this
 
-        self.all_objects['options.save'] = ButtonLabel(self.font[0], 'BACK TO TITLE', Colors.RED, Colors.ORANGE, Colors.BLUE, self.change_state, State.TITLE)
+        self.all_objects['options.save'] = ButtonLabel(
+            self.font[0], 'Back to Title', Colors.RED, Colors.ORANGE, Colors.BLUE, self.change_state, State.TITLE)
         self.all_objects['options.save'].center(do_x=True)
         self.all_objects['options.save'].move_to(y=270)
         # INGAME
 
         '''MAKE A TOGGLE BUTTON CLASS TO INCLUDE HERE'''
         # PAUSE
-        self.all_objects['pause.label'] = TextLabel(self.font[3], 'PAUSE', Colors.RED)
+        self.all_objects['pause.label'] = TextLabel(
+            self.font[3], 'PAUSE', Colors.RED)
         self.all_objects['pause.label'].center(do_x=True)
-        self.all_objects['pause.label'].move_to(y=40) # COPY FOR GAME MANAGER'S _ _ _ _
-        self.all_objects['pause.play'] = ButtonLabel(self.font[2], 'Resume', Colors.RED, Colors.ORANGE, Colors.BLUE, self.change_state, State.INGAME)
-        self.all_objects['pause.play'].move_to(160, 200)
-        self.all_objects['pause.quit'] = ButtonLabel(self.font[2], 'Quit', Colors.RED, Colors.ORANGE, Colors.BLUE, self.change_state, State.TITLE)
-        self.all_objects['pause.quit'].move_to(340, 200)
+        self.all_objects['pause.label'].move_to(
+            y=40)  # COPY FOR GAME MANAGER'S _ _ _ _
+        self.all_objects['pause.resume'] = ButtonLabel(
+            self.font[2], 'Resume', Colors.RED, Colors.ORANGE, Colors.BLUE, self.change_state, State.INGAME)
+        self.all_objects['pause.resume'].center(do_x=True)
+        self.all_objects['pause.resume'].move_to(y=200)
+        self.all_objects['pause.quit'] = ButtonLabel(
+            self.font[1], 'Quit', Colors.GREY, Colors.GREEN, Colors.CYAN, self.change_state, State.TITLE)
+        self.all_objects['pause.quit'].center(do_x=True)
+        self.all_objects['pause.quit'].move_to(y=250)
         # GAMEOVER
         '''
         should literally just display the answer + a continue button with confetti if I have time'''
-        self.all_objects['gameover.continue'] = ButtonLabel(self.font[0], 'GAMEOVER', Colors.RED, Colors.GREEN, Colors.BLUE, self.placeholder_click, 'continue')
+        self.all_objects['gameover.label'] = TextLabel(
+            self.font[3], 'YOU WIN!', Colors.BLACK)
+        # looking at this, it might be nice to return itself and so I can "chain" changes
+        self.all_objects['gameover.label'].center(do_x=True)
+        self.all_objects['gameover.label'].move_to(y=40)
+
+        self.all_objects['gameover.continue'] = ButtonLabel(
+            self.font[1], 'Continue', Colors.RED, Colors.ORANGE, Colors.BLUE, self.change_state, State.LEADERBOARD)
+        self.all_objects['gameover.continue'].center(do_x=True)
+        self.all_objects['gameover.continue'].move_to(y=300)
         # LEADERBOARD
-        self.all_objects['leaderboard.continue'] = ButtonLabel(self.font[0], 'LEADERBOARD', Colors.RED, Colors.GREEN, Colors.BLUE, self.placeholder_click, 'leaderboard')
+        self.all_objects['leaderboard.label'] = TextLabel(
+            self.font[2], 'Saved Scores', Colors.CYAN)
+        self.all_objects['leaderboard.label'].center(do_x=True)
+        self.all_objects['leaderboard.label'].move_to(y=40)
+        self.all_objects['leaderboard.continue'] = ButtonLabel(
+            self.font[1], 'Back to Title', Colors.RED, Colors.GREEN, Colors.BLUE, self.change_state, State.TITLE)
+        self.all_objects['leaderboard.continue'].center(do_x=True)
+        self.all_objects['leaderboard.continue'].move_to(y=300)
 
     def load_fonts(self) -> None:
         font_path = os.path.join(self.asset_dir, 'font.ttf')
@@ -174,7 +210,7 @@ class Game:
                     sys.exit()
                 case pg.WINDOWMOVED | pg.WINDOWMINIMIZED:
                     if self.state == State.INGAME:
-                        self.state = State.PAUSE
+                        self.change_state(State.PAUSE)
                 case pg.KEYDOWN:
                     if event.key == 96:
                         if self.state == State.TITLE:
@@ -189,6 +225,9 @@ class Game:
                             self.change_state(State.OPTIONS)
                         elif self.state == State.OPTIONS:
                             self.change_state(State.TITLE)
+                    elif event.key == 27:
+                        if self.state == State.INGAME:
+                            self.change_state(State.PAUSE)
             for game_obj in self.on_screen_objects:
                 game_obj.handle_event(event)
 
@@ -199,25 +238,43 @@ class Game:
             self.dirty_rects.append(self.surface.get_rect())
             match self.state:
                 case State.TITLE:
-                    self.all_objects['title.label'].add_to(self.on_screen_objects)
-                    self.all_objects['title.play'].add_to(self.on_screen_objects)
-                    self.all_objects['title.options'].add_to(self.on_screen_objects)
-                    self.all_objects['title.caption'].add_to(self.on_screen_objects)
-                    self.all_objects['title.quit'].add_to(self.on_screen_objects)
+                    self.all_objects['title.label'].add_to(
+                        self.on_screen_objects)
+                    self.all_objects['title.play'].add_to(
+                        self.on_screen_objects)
+                    self.all_objects['title.options'].add_to(
+                        self.on_screen_objects)
+                    self.all_objects['title.caption'].add_to(
+                        self.on_screen_objects)
+                    self.all_objects['title.quit'].add_to(
+                        self.on_screen_objects)
                 case State.OPTIONS:
-                    self.all_objects['options.label'].add_to(self.on_screen_objects)
-                    self.all_objects['options.save'].add_to(self.on_screen_objects)
+                    self.all_objects['options.label'].add_to(
+                        self.on_screen_objects)
+                    self.all_objects['options.delete_hs'].add_to(
+                        self.on_screen_objects)
+                    self.all_objects['options.save'].add_to(
+                        self.on_screen_objects)
                 case State.INGAME:
                     # ASK GAME MANAGAER TO ADD IT'S OBJECTS TO THE ONSCREEN OBJECTS
                     pass
                 case State.PAUSE:
-                    self.all_objects['pause.label'].add_to(self.on_screen_objects)
-                    self.all_objects['pause.play'].add_to(self.on_screen_objects)
-                    self.all_objects['pause.quit'].add_to(self.on_screen_objects)
+                    self.all_objects['pause.label'].add_to(
+                        self.on_screen_objects)
+                    self.all_objects['pause.resume'].add_to(
+                        self.on_screen_objects)
+                    self.all_objects['pause.quit'].add_to(
+                        self.on_screen_objects)
                 case State.GAMEOVER:
-                    self.all_objects['gameover.continue'].add_to(self.on_screen_objects)
+                    self.all_objects['gameover.continue'].add_to(
+                        self.on_screen_objects)
+                    self.all_objects['gameover.label'].add_to(
+                        self.on_screen_objects)
                 case State.LEADERBOARD:
-                    self.all_objects['leaderboard.continue'].add_to(self.on_screen_objects)
+                    self.all_objects['leaderboard.continue'].add_to(
+                        self.on_screen_objects)
+                    self.all_objects['leaderboard.label'].add_to(
+                        self.on_screen_objects)
         for game_obj in self.on_screen_objects:
             rects = game_obj.update()
             if rects:
@@ -236,4 +293,4 @@ class Game:
             self.update_logic()
             self.render_screen()
             # currently empty, when settings kick in, fill with something
-            self.clock.tick_busy_loop(30)
+            self.clock.tick_busy_loop(240)

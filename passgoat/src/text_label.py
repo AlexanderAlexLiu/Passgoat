@@ -5,6 +5,7 @@ from pygame import Rect
 
 ALIAS = True
 
+
 class TextLabel:
     def __init__(self, font: Font, text: str = '', color: Color = (0, 0, 0)) -> None:
         self.x, self.y = 0, 0
@@ -20,12 +21,12 @@ class TextLabel:
         self.surface = self.font.render(self.text, ALIAS, self.color)
         self.old_rect = self.rect.copy()
         self.rect.width, self.rect.height = self.surface.get_size()
-    
-    def center(self, do_x : bool = False, do_y : bool = False) -> None:
+
+    def center(self, do_x: bool = False, do_y: bool = False) -> None:
         if do_x:
-            self.move_to(x = (600 - self.rect.w) / 2)
+            self.move_to(x=(600 - self.rect.w) / 2)
         if do_y:
-            self.move_to(y = (400 - self.rect.h) / 2)
+            self.move_to(y=(400 - self.rect.h) / 2)
 
     def move_to(self, x: float = None, y: float = None) -> None:
         # didn't use if not x because 0 will trigger not
@@ -34,13 +35,13 @@ class TextLabel:
             self.rect.x = x
         if y != None:
             self.rect.y = y
-    
-    def move_by(self, x : float = None, y : float = None) -> None:
+
+    def move_by(self, x: float = None, y: float = None) -> None:
         self.old_rect = self.rect.copy()
         if x != None:
-            self.rect.x+=x
+            self.rect.x += x
         if y != None:
-            self.rect.y+=y
+            self.rect.y += y
 
     def handle_event(self, event: Event) -> None:
         pass
@@ -60,7 +61,7 @@ class TextLabel:
 
     def wake(self) -> None:
         self.do_render = True
-    
-    def add_to(self, active_objects : list) -> None:
+
+    def add_to(self, active_objects: list) -> None:
         self.wake()
         active_objects.append(self)
