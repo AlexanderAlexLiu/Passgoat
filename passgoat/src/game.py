@@ -6,9 +6,7 @@ For Rachel
 '''
 
 
-import pygame as pg
-from button_label import ButtonLabel
-from text_label import TextLabel
+
 from colors import Colors
 import os
 import sys
@@ -19,7 +17,6 @@ from enum import Enum
 # hides the extra text when importing pygame
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
-
 class State(Enum):
     TITLE = 0
     OPTIONS = 1
@@ -28,6 +25,9 @@ class State(Enum):
     GAMEOVER = 4
     LEADERBOARD = 5
 
+import pygame as pg
+from button_label import ButtonLabel
+from text_label import TextLabel
 
 class Game:
 
