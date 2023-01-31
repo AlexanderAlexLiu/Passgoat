@@ -43,17 +43,19 @@ class ToggleLabel(TextLabel):
 
     def run_toggle_on(self) -> None:
         self.click, self.hover, self.toggle = False, False, True
-        if self.toggle_on_argument:
-            self.toggle_on_function(self.toggle_on_argument)
-        else:
-            self.toggle_on_function()
+        if self.toggle_on_function:
+            if self.toggle_on_argument:
+                self.toggle_on_function(self.toggle_on_argument)
+            else:
+                self.toggle_on_function()
 
     def run_toggle_off(self) -> None:
         self.click, self.hover, self.toggle = False, False, False
-        if self.toggle_off_argument:
-            self.toggle_off_function(self.toggle_off_argument)
-        else:
-            self.toggle_off_function()
+        if self.toggle_off_function:
+            if self.toggle_off_argument:
+                self.toggle_off_function(self.toggle_off_argument)
+            else:
+                self.toggle_off_function()
 
     def handle_event(self, event: Event) -> None:
         match event.type:
@@ -70,20 +72,22 @@ class ToggleLabel(TextLabel):
                     self.wake()
             case pg.MOUSEMOTION:
                 if self.rect.collidepoint(event.pos):
-                    self.hover = True
-                else:
+                    if not self.hover:
+                        self.hover = True
+                        self.wake()
+                elif self.hover:
                     self.hover = False
-                self.wake()
+                    self.wake()
 
     def render(self, surface: Surface):
-        print('DRAWING: {}'.format(self.text))
         if self.do_render:
-            if self.click:
+            if self.toggle:
+                surface.blit(self.toggle_surface, (self.rect.x, self.rect.y))
+            elif self.click:
                 surface.blit(self.click_surface, (self.rect.x, self.rect.y))
             elif self.hover:
                 surface.blit(self.hover_surface, (self.rect.x, self.rect.y))
-            elif self.toggle:
-                surface.blit(self.toggle_surface, (self.rect.x, self.rect.y))
             else:
                 surface.blit(self.surface, (self.rect.x, self.rect.y))
             self.do_render = False
+            self.old_rect = self.rect.copy()

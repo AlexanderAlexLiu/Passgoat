@@ -24,7 +24,7 @@ class State(Enum):
     PAUSE = 3
     GAMEOVER = 4
     LEADERBOARD = 5
-
+from game_manager import GameManager
 import pygame as pg
 from button_label import ButtonLabel
 from text_label import TextLabel
@@ -63,6 +63,7 @@ class Game:
         self.font = {}
         self.load_fonts()
         self.create_all_objects()
+        self.game_manager = GameManager(self.font)
         self.state_init = False
         self.surface = pg.display.set_mode(self.SIZE)
         self.decorate_window()
@@ -161,6 +162,7 @@ class Game:
 
     def load_fonts(self) -> None:
         font_path = os.path.join(self.asset_dir, 'font.ttf')
+        self.font[-1] = pg.font.Font(font_path, 8)
         self.font[0] = pg.font.Font(font_path, 16)
         self.font[1] = pg.font.Font(font_path, 24)
         self.font[2] = pg.font.Font(font_path, 32)
@@ -257,7 +259,7 @@ class Game:
                         self.on_screen_objects)
                 case State.INGAME:
                     # ASK GAME MANAGAER TO ADD IT'S OBJECTS TO THE ONSCREEN OBJECTS
-                    pass
+                    self.game_manager.add_to(self.on_screen_objects)
                 case State.PAUSE:
                     self.all_objects['pause.label'].add_to(
                         self.on_screen_objects)

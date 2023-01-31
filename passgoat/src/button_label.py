@@ -58,7 +58,6 @@ class ButtonLabel(TextLabel):
 
     def render(self, surface: Surface):
         if self.do_render:
-            print('DRAWING: {}'.format(self))
             if self.click:
                 surface.blit(self.click_surface, (self.rect.x, self.rect.y))
             elif self.hover:
@@ -66,3 +65,4 @@ class ButtonLabel(TextLabel):
             else:
                 surface.blit(self.surface, (self.rect.x, self.rect.y))
             self.do_render = False
+            self.old_rect = self.rect.copy()

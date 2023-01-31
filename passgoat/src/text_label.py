@@ -55,10 +55,9 @@ class TextLabel:
 
     def render(self, surface: Surface):
         if self.do_render:
-            print('DRAWING: {}'.format(self))
             surface.blit(self.surface, (self.rect.x, self.rect.y))
             self.do_render = False
-
+            self.old_rect = self.rect.copy()
     def wake(self) -> None:
         self.do_render = True
 
