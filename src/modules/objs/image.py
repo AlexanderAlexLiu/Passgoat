@@ -1,19 +1,36 @@
 from __future__ import annotations
-_A=False
 from modules.objs.gameobject import GameObject
 import pygame as pg
+
+
 class Image(GameObject):
-	def __init__(A,image):super().__init__();A.surface=image;A.rect=A.surface.get_rect();A.old_rect=A.rect.copy()
-	def move_to(A,x=None,y=None):
-		A.old_rect=A.rect.copy()
-		if x:A.rect.x=x
-		if y:A.rect.y=y
-		return A
-	def center(A,x=_A,y=_A):
-		if x:A.move_to(x=(600-A.rect.w)/2)
-		if y:A.move_to(y=(400-A.rect.h)/2)
-		return A
-	def update(A):
-		if A.dirty:return[A.rect,A.old_rect]
-	def draw(A,surface):
-		if A.dirty:surface.blit(A.surface,A.rect);A.old_rect=A.rect.copy();A.dirty=_A
+    def __init__(self, image: pg.Surface) -> None:
+        super().__init__()
+        self.surface = image
+        self.rect = self.surface.get_rect()
+        self.old_rect = self.rect.copy()
+
+    def move(self, x: float = None, y: float = None) -> Image:
+        self.old_rect = self.rect.copy()
+        if x:
+            self.rect.x = x
+        if y:
+            self.rect.y = y
+        return self
+
+    def center(self, x: bool = False, y: bool = False) -> Image:
+        if x:
+            self.move(x=(600-self.rect.w)/2)
+        if y:
+            self.move(y=(400-self.rect.h)/2)
+        return self
+
+    def update(self) -> list[pg.Rect]:
+        if self.dirty:
+            return [self.old_rect, self.rect]
+
+    def draw(self, surface):
+        if self.dirty:
+            surface.blit(self.surface, self.rect)
+            self.old_rect = self.rect.copy()
+            self.set_dirty(False)

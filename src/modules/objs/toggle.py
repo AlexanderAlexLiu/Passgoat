@@ -1,20 +1,44 @@
 from __future__ import annotations
 from modules.objs.button import Button
-from modules.objs.colorgroups import ColorGroup
 import pygame as pg
 from typing import Callable
+
+
 class Toggle(Button):
-	ALIAS=True
-	def __init__(A,text,font,colors):super().__init__(text,font,colors,None);A.surface_toggle=A.font.render(A.text,Toggle.ALIAS,A.colors[3]);A.func=A.do_toggle;A.toggle=False
-	def set_toggle(A,toggle):A.toggle=toggle
-	def do_toggle(A):A.toggle=not A.toggle
-	def handle_event(A,event):return super().handle_event(event)
-	def draw(A,surface):
-		B=surface
-		if A.dirty:
-			if A.click:B.blit(A.surface_click,A.rect)
-			elif A.hover:B.blit(A.surface_hover,A.rect)
-			elif A.toggle:B.blit(A.surface_toggle,A.rect)
-			else:B.blit(A.surface,A.rect)
-			A.old_rect=A.rect.copy();A.set_dirty(False)
-	def get_toggle(A):return A.toggle
+    def __init__(self, text: str, font: pg.font.Font, colors: tuple[tuple], func: Callable = None, param=None) -> None:
+        super().__init__(text, font, colors, param=param)
+        self.surface_toggle = self.font.render(
+            self.text, Toggle.ANTIALIAS, self.colors[3])
+        self.toggle = False
+        self.func = self.do_toggle()
+        self.on_toggle = func
+
+    def set_toggle(self, toggle: bool) -> None:
+        self.toggle = toggle
+
+    def handle_event(self, event: pg.event.Event) -> None:
+        super().handle_event(event)
+
+    def do_toggle(self) -> None:
+        if self.on_toggle != None:
+            if self.param == None:
+                self.on_toggle()
+            else:
+                self.on_toggle(self.param)
+        self.toggle = not self.toggle
+
+    def draw(self, surface: pg.Surface) -> None:
+        if self.dirty:
+            if self.click:
+                surface.blit(self.surface_click, self.rect)
+            elif self.hover:
+                surface.blit(self.surface_hover self.rect)
+            elif self.toggle:
+                surface.blit(self.surface_toggle, self.rect)
+            else:
+                surface.blit(self.surface, self.rect)
+            self.old_rect = self.rect.copy()
+            self.set_dirty(False)
+
+    def get_toggle(self) -> bool:
+        return self.toggle

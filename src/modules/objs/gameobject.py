@@ -11,7 +11,7 @@ class GameObject:
     def update(self) -> list[pg.Rect]:
         pass
 
-    def draw(self, surface : pg.Surface) -> None:
+    def draw(self, surface: pg.Surface) -> None:
         print(f"DRAWING {self}")
 
     def add_to(self, arr: list) -> None:
