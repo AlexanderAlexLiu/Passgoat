@@ -45,7 +45,6 @@ class TextLabel(GameObject):
 
     def draw(self, surface: pg.Surface):
         if self.dirty:
-            super().draw(surface)
             surface.blit(self.surface, self.rect)
             self.old_rect = self.rect.copy()
             self.set_dirty(False)
