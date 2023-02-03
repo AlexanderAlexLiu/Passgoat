@@ -32,7 +32,7 @@ class Toggle(Button):
             if self.click:
                 surface.blit(self.surface_click, self.rect)
             elif self.hover:
-                surface.blit(self.surface_hover self.rect)
+                surface.blit(self.surface_hover, self.rect)
             elif self.toggle:
                 surface.blit(self.surface_toggle, self.rect)
             else:
