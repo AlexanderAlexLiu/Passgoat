@@ -24,7 +24,7 @@ import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT']='1'
 from modules.data import GameData as gd
 from modules.game_states import GameStates as gs
-from modules.colors import Colors as col
+from modules.color import Colors as col
 import pygame as pg
 from modules.objs.image import Image
 from modules.objs.button import Button
