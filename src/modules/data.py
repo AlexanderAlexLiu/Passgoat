@@ -6,13 +6,14 @@ class to keep track of all I/O of the game
 this includes loading images, fonts, etc.
 '''
 
-import shelve, sys, pygame, os
+import shelve, sys, pygame, os, __main__
 
 class GameData:
-    SETTINGS = {
+    OPTIONS = {
         'mode' : 0,
         'dark' : False,
-        'hard' : False
+        'hard' : False,
+        'scores' : []
     }
     def __init__(self) -> None:
         self.__get_dir()
@@ -45,11 +46,11 @@ class GameData:
         self.settings = {}
         self.__data_path = os.path.join(self.__game_dir, 'data')
         with shelve.open(self.__data_path) as data:
-            for key in GameData.SETTINGS.keys():
+            for key in GameData.OPTIONS.keys():
                 try:
                     self.settings[key] = data[key]
                 except KeyError:
-                    self.settings[key] = GameData.SETTINGS[key]
+                    self.settings[key] = GameData.OPTIONS[key]
     def __load_images(self) -> None:
         self.__images = {}
         img_dir = os.path.join(self.asset_dir, 'images')
@@ -71,5 +72,5 @@ class GameData:
             self.__game_dir = os.path.dirname(sys.executable)
         else:
             # should be where passgoat.py is
-            self.__game_dir = os.path.dirname(__file__)
+            self.__game_dir = os.path.dirname(__main__.__file__)
         self.asset_dir = os.path.join(self.__game_dir, 'assets')
