@@ -1,8 +1,7 @@
-from modules.colors import Colors
+import modules.color as Color
 
-class ColorGroup:
-    CAPTION = (Colors.CYAN,)
-    LABEL = (Colors.RED,)
-    BUTTON = (Colors.RED, Colors.GREEN, Colors.BLUE)
-    BUTTON_LESSER = (Colors.GREY, Colors.RED, Colors.CYAN)
-    TOGGLE = (Colors.ORANGE, Colors.BLACK, Colors.YELLOW, Colors.GREEN)
+CAPTION = Color.CYAN,
+LABEL = Color.RED,
+BUTTON = Color.RED, Color.GREEN, Color.BLUE
+BUTTON_LESSER = Color.GREY, Color.RED, Color.CYAN
+TOGGLE = Color.ORANGE, Color.BLACK, Color.YELLOW, Color.GREEN

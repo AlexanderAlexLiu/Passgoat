@@ -1,6 +1,7 @@
 from enum import Enum
 
-class GameStates:
+
+class GameStates(Enum):
     TITLE = 0
     OPTIONS = 1
     INGAME = 2
