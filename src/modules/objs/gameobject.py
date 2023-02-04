@@ -5,7 +5,7 @@ class GameObject:
     def __init__(self) -> None:
         self.dirty = False
 
-    def handle_event(self, event: pg.event.Event) -> None:
+    def handle_event(self, event: pg.event.Event) -> bool:
         pass
 
     def update(self) -> list[pg.Rect]:

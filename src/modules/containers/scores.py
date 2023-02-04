@@ -8,7 +8,7 @@ from modules.data import GameData
 from typing import Callable
 from modules.game_states import GameStates
 
-class InGame(Container):
+class Scores(Container):
     def __init__(self, data : GameData, change_state : Callable) -> None:
         super().__init__()
         self.pause_label = TextLabel('Pause', data.get_font(3), ColorGroups.LABEL).center(x=True).move(y=40)

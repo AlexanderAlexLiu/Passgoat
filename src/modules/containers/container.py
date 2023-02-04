@@ -10,7 +10,7 @@ class Container(GameObject):
     def update(self) -> list[pg.Rect]:
         if self.dirty:
             rect_list = []
-            for obj in self.chidren:
+            for obj in self.children:
                 rect = obj.update()
                 if rect:
                     rect_list.extend(rect)
@@ -24,4 +24,10 @@ class Container(GameObject):
 
     def handle_event(self, event: pg.event.Event) -> None:
         for obj in self.children:
-            obj.handle_event(event)
+            if obj.handle_event(event) and not self.dirty:
+                self.dirty = True
+    
+    def add_to(self, arr: list) -> None:
+        super().add_to(arr)
+        for obj in self.children:
+            obj.set_dirty()

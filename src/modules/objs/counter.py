@@ -11,11 +11,20 @@ class Counter(Button):
         self.label = self.text
         self.func = self.increase
 
+    def move(self, x: float = None, y: float = None) -> Counter:
+        super().move(x, y)
+        return self
+
+    def center(self, x: bool = False, y: bool = False) -> Counter:
+        super().center(x, y)
+        return self
+
     def increase(self) -> None:
         self.count += 1
         if self.count > self.upper:
             self.count = self.lower
         self.set_text(f'{self.label} : {self.count}')
+        self.set_dirty()
 
     def get_count(self) -> int:
         return self.count

@@ -17,7 +17,7 @@ class GameData:
     def set_setting(self, key: str, val) -> None:
         self.settings[key] = val
 
-    def get_setting(self, key: str) -> None:
+    def get_setting(self, key: str):
         return self.settings[key]
 
     def get_font(self, key: int) -> pg.font.Font:
@@ -43,7 +43,7 @@ class GameData:
 
     def __load_images(self) -> None:
         self.__images = {}
-        self.__images_dir = os.path.join(A.asset_dir, 'images')
+        self.__images_dir = os.path.join(self.__asset_dir, 'images')
         self.__image_names = ['icon', 'goat']
         for name in self.__image_names:
             self.__images[name] = pg.image.load(os.path.join(

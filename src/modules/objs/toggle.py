@@ -10,14 +10,14 @@ class Toggle(Button):
         self.surface_toggle = self.font.render(
             self.text, Toggle.ANTIALIAS, self.colors[3])
         self.toggle = False
-        self.func = self.do_toggle()
         self.on_toggle = func
+        self.func = self.do_toggle
 
     def set_toggle(self, toggle: bool) -> None:
         self.toggle = toggle
 
-    def handle_event(self, event: pg.event.Event) -> None:
-        super().handle_event(event)
+    def handle_event(self, event: pg.event.Event) -> bool:
+        return super().handle_event(event)
 
     def do_toggle(self) -> None:
         if self.on_toggle != None:
@@ -26,6 +26,14 @@ class Toggle(Button):
             else:
                 self.on_toggle(self.param)
         self.toggle = not self.toggle
+
+    def center(self, x: bool = False, y: bool = False) -> Toggle:
+        super().center(x, y)
+        return self
+
+    def move(self, x: float = None, y: float = None) -> Toggle:
+        super().move(x, y)
+        return self
 
     def draw(self, surface: pg.Surface) -> None:
         if self.dirty:
