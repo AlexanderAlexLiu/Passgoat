@@ -21,7 +21,6 @@ class Options(Container):
         self.save_button = Button('Save', data.get_font(2), ColorGroups.BUTTON_LESSER, self.save, change_state).center(x=True).move(y=300)
         self.children.extend((self.options_label, self.hard_button, self.number_count, self.delete_button, self.save_button))
     def save(self, change_state : Callable):
-        # NOT DONE
         self.data.set_setting('mode', self.number_count.get_count())
         self.data.set_setting('hard', self.hard_button.get_toggle()) 
         change_state(GameStates.TITLE)
