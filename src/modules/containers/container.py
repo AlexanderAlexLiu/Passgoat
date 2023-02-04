@@ -28,6 +28,8 @@ class Container(GameObject):
                 self.dirty = True
     
     def add_to(self, arr: list) -> None:
-        super().add_to(arr)
+        arr.append(self)
         for obj in self.children:
+            obj.reset()
             obj.set_dirty()
+        self.set_dirty()

@@ -6,24 +6,23 @@ number guessing game with pygame
 
 for R.Y
 '''
-
 import os
 import sys
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
-import pygame as pg
-from modules.containers.ingame import InGame
-from modules.containers.options import Options
-from modules.containers.pause import Pause
-from modules.containers.scores import Scores
-from modules.containers.title import Title
-from modules.containers.end import End
-from modules.game_states import GameStates as GS
-import modules.color as Color
 from modules.data import GameData
+import modules.color as Color
+from modules.game_states import GameStates as GS
+from modules.containers.end import End
+from modules.containers.title import Title
+from modules.containers.scores import Scores
+from modules.containers.pause import Pause
+from modules.containers.options import Options
+from modules.containers.ingame import InGame
+import pygame as pg
 
 class Passgoat:
     def __init__(self) -> None:
-        self.SIZE = 600, 400
+        self.SIZE = 800, 400
         pg.display.init()
         pg.font.init()
         self.surface = pg.display.set_mode(self.SIZE, pg.HIDDEN)
@@ -61,7 +60,7 @@ class Passgoat:
         pg.display.set_caption('Passgoat', 'goat')
 
     def start_game(self):
-        print('game started!')
+        self.objs['ingame'].reset_game()
         self.change_state(GS.INGAME)
 
     def create_objs(self):
@@ -76,7 +75,7 @@ class Passgoat:
 
     def handle_events(self):
         for event in pg.event.get():
-            #print(event)
+            print(event)
             match event.type:
                 case pg.QUIT:
                     self.quit_game()

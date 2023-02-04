@@ -20,7 +20,7 @@ class Image(GameObject):
 
     def center(self, x: bool = False, y: bool = False) -> Image:
         if x:
-            self.move(x=(600-self.rect.w)/2)
+            self.move(x=(800-self.rect.w)/2)
         if y:
             self.move(y=(400-self.rect.h)/2)
         return self

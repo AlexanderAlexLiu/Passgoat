@@ -13,14 +13,6 @@ class Button(TextLabel):
             self.text, Button.ANTIALIAS, self.colors[2])
         self.hover, self.click, self.func, self.param = False, False, func, param
 
-    def move(self, x: float = None, y: float = None) -> Button:
-        super().move(x, y)
-        return self
-
-    def center(self, x: bool = False, y: bool = False) -> Button:
-        super().center(x, y)
-        return self
-
     def set_text(self, text: str) -> Button:
         super().set_text(text)
         self.surface_hover = self.font.render(
@@ -47,7 +39,6 @@ class Button(TextLabel):
                     if self.rect.collidepoint(event.pos):
                         self.click = True
                         self.set_dirty()
-                        return True
             case pg.MOUSEBUTTONUP:
                 if event.button == 1:
                     if self.click:
@@ -58,19 +49,15 @@ class Button(TextLabel):
                             else:
                                 self.func(self.param)
                         self.set_dirty()
-                        return True
             case pg.MOUSEMOTION:
                 if self.rect.collidepoint(event.pos):
                     if not self.hover:
                         self.hover = True
                         self.set_dirty()
-                        return True
                 elif self.hover:
                     self.hover = False
                     self.set_dirty()
-                    return True
-        return False
+        return self.dirty
 
-    def add_to(self, arr: list) -> None:
-        super().add_to(arr)
+    def reset(self) -> None:
         self.hover, self.click = False, False

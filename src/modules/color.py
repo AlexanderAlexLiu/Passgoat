@@ -8,10 +8,18 @@ a lot of color constants for passgoat
 NEON_GREEN = 57, 255, 20
 BLACK = 54, 57, 59
 BLUE = 124, 204, 207
-WHITE = 255, 245, 245
+WHITE = 245, 245, 245
 GREY = 220, 226, 224
 GREEN = 138, 203, 136
 CYAN = 14, 177, 210
 ORANGE = 247, 188, 94
 RED = 226, 109, 90
 YELLOW = 253, 236, 147
+
+class OTHER:
+    RED = 255, 20, 20
+    ORANGE = 255, 128, 20
+    YELLOW = 255, 255, 20
+    GREEN = 20, 255, 20
+    BLUE = 20, 20, 255
+    PURPLE = 255, 20, 255

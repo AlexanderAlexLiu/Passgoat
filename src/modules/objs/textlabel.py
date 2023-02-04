@@ -17,7 +17,8 @@ class TextLabel(GameObject):
         self.old_rect = self.rect.copy()
 
     def move(self, x: float = None, y: float = None) -> TextLabel:
-        self.old_rect = self.rect.copy()
+        if self.dirty:
+            self.old_rect = self.rect.copy()
         if x:
             self.rect.x = x
         if y:
@@ -26,7 +27,7 @@ class TextLabel(GameObject):
 
     def center(self, x: bool = False, y: bool = False) -> TextLabel:
         if x:
-            self.move(x=(600-self.rect.w)/2)
+            self.move(x=(800-self.rect.w)/2)
         if y:
             self.move(y=(400-self.rect.h)/2)
         return self

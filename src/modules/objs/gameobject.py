@@ -5,6 +5,9 @@ class GameObject:
     def __init__(self) -> None:
         self.dirty = False
 
+    def reset(self) -> None:
+        pass
+
     def handle_event(self, event: pg.event.Event) -> bool:
         pass
 
@@ -12,11 +15,7 @@ class GameObject:
         pass
 
     def draw(self, surface: pg.Surface) -> None:
-        print(f"DRAWING {self}")
-
-    def add_to(self, arr: list) -> None:
-        arr.append(self)
-        self.dirty = True
-
+        pass
+    
     def set_dirty(self, val: bool = True) -> None:
         self.dirty = val
