@@ -14,7 +14,6 @@ class Container(GameObject):
                 rect = obj.update()
                 if rect:
                     rect_list.extend(rect)
-            print(rect_list)
             return rect_list
 
     def draw(self, surface: pg.Surface) -> None:

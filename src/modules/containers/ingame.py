@@ -12,9 +12,12 @@ import pygame as pg
 class InGame(Container):
     def __init__(self, data : GameData, change_state : Callable) -> None:
         super().__init__()
+        self.data = data
         self.change_state = change_state
-        self.pause_label = TextLabel('INGAME', data.get_font(3), ColorGroups.LABEL).center(x=True).move(y=40)
-        self.children.extend((self.pause_label,))
+    def reset(self):
+        self.guess = [None for i in range(self.data.get_setting('mode'))]
+    def ghost(self):
+        pass
     def handle_event(self, event: pg.event.Event) -> None:
         match event.type:
             case pg.WINDOWMOVED | pg.WINDOWMINIMIZED:

@@ -7,6 +7,9 @@ number guessing game with pygame
 for R.Y
 '''
 
+import os
+import sys
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 import pygame as pg
 from modules.containers.ingame import InGame
 from modules.containers.options import Options
@@ -17,10 +20,6 @@ from modules.containers.end import End
 from modules.game_states import GameStates as GS
 import modules.color as Color
 from modules.data import GameData
-import os
-import sys
-os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
-
 
 class Passgoat:
     def __init__(self) -> None:
@@ -48,7 +47,8 @@ class Passgoat:
              pg.KEYUP,
              pg.KEYDOWN,
              pg.WINDOWMOVED,
-             pg.WINDOWMINIMIZED
+             pg.WINDOWMINIMIZED,
+             pg.WINDOWRESTORED
              )
         )
 
@@ -60,9 +60,13 @@ class Passgoat:
         pg.display.set_icon(self.data.get_image('icon'))
         pg.display.set_caption('Passgoat', 'goat')
 
+    def start_game(self):
+        print('game startedg')
+
     def create_objs(self):
         self.objs = {}
-        self.objs['title'] = Title(self.data, self.change_state, self.quit_game)
+        self.objs['title'] = Title(
+            self.data, self.change_state, self.quit_game, self.start_game)
         self.objs['options'] = Options(self.data, self.change_state)
         self.objs['ingame'] = InGame(self.data, self.change_state)
         self.objs['pause'] = Pause(self.data, self.change_state)
@@ -71,16 +75,21 @@ class Passgoat:
 
     def handle_events(self):
         for event in pg.event.get():
-            #print(event)
             match event.type:
                 case pg.QUIT:
                     self.quit_game()
+                case pg.WINDOWRESTORED:
+                    self.state_init = False
+                case pg.K_TAB:
+                    print(self.clock.get_fps())
             for obj in self.alive_objs:
                 obj.handle_event(event)
+
     def quit_game(self):
         self.data.save_data()
         pg.quit()
         sys.exit()
+
     def update(self):
         if not self.state_init:
             self.alive_objs.clear()
@@ -110,7 +119,7 @@ class Passgoat:
         for obj in self.alive_objs:
             obj.draw(self.surface)
         pg.display.update(self.dirty_rects)
-        self.clock.tick_busy_loop(690)
+        self.clock.tick_busy_loop(1000)
         self.dirty_rects.clear()
 
     def run(self):
