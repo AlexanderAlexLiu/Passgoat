@@ -43,20 +43,22 @@ class Button(TextLabel):
     def handle_event(self, event: pg.event.Event) -> bool:
         match event.type:
             case pg.MOUSEBUTTONDOWN:
-                if self.rect.collidepoint(event.pos):
-                    self.click = True
-                    self.set_dirty()
-                    return True
+                if event.button == 1:
+                    if self.rect.collidepoint(event.pos):
+                        self.click = True
+                        self.set_dirty()
+                        return True
             case pg.MOUSEBUTTONUP:
-                if self.click:
-                    self.click = False
-                    if self.func:
-                        if self.param == None:
-                            self.func()
-                        else:
-                            self.func(self.param)
-                    self.set_dirty()
-                    return True
+                if event.button == 1:
+                    if self.click:
+                        self.click = False
+                        if self.func:
+                            if self.param == None:
+                                self.func()
+                            else:
+                                self.func(self.param)
+                        self.set_dirty()
+                        return True
             case pg.MOUSEMOTION:
                 if self.rect.collidepoint(event.pos):
                     if not self.hover:

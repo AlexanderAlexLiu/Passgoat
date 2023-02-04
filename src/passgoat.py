@@ -61,7 +61,8 @@ class Passgoat:
         pg.display.set_caption('Passgoat', 'goat')
 
     def start_game(self):
-        print('game startedg')
+        print('game started!')
+        self.change_state(GS.INGAME)
 
     def create_objs(self):
         self.objs = {}
@@ -75,13 +76,15 @@ class Passgoat:
 
     def handle_events(self):
         for event in pg.event.get():
+            #print(event)
             match event.type:
                 case pg.QUIT:
                     self.quit_game()
                 case pg.WINDOWRESTORED:
                     self.state_init = False
-                case pg.K_TAB:
-                    print(self.clock.get_fps())
+                case pg.KEYDOWN:
+                    if event.key == pg.K_TAB:
+                        print(self.clock.get_fps())
             for obj in self.alive_objs:
                 obj.handle_event(event)
 
