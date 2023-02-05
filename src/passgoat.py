@@ -105,7 +105,7 @@ class Passgoat:
                 case GS.INGAME:
                     self.objs['ingame'].add_to(self.alive_objs)
                 case GS.PAUSE:
-                    self.objs['pause'].add_to(self.alive_objs)
+                    self.objs['pause'].add_to(self.alive_objs)  
                 case GS.END:
                     self.objs['end'].add_to(self.alive_objs)
                 case GS.SCORES:
