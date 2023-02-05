@@ -2,9 +2,10 @@
 /.vscode
 /cx_freeze setup
 test.py
-src/data.bak
-src/data.dat
-src/data.dir
+src/save.bak
+src/save.date
+src/save.dir
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
