@@ -8,12 +8,13 @@ class Container(GameObject):
         self.children = []
 
     def update(self) -> list[pg.Rect]:
-        if self.dirty:
-            rect_list = []
-            for obj in self.children:
-                rect = obj.update()
-                if rect:
-                    rect_list.extend(rect)
+        rect_list = []
+        for obj in self.children:
+            rect = obj.update()
+            if rect:
+                rect_list.extend(rect)
+        if rect_list:
+            self.dirty = True
             return rect_list
 
     def draw(self, surface: pg.Surface) -> None:

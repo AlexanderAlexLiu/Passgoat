@@ -1,11 +1,11 @@
 from __future__ import annotations
 from modules.objs.button import Button
 import pygame as pg
-
+from typing import Callable
 
 class SpecialButton(Button):
-    def __init__(self, text: str, font: pg.font.Font, colors: tuple[tuple]) -> None:
-        super().__init__(text, font, colors)
+    def __init__(self, text: str, font: pg.font.Font, colors: tuple[tuple], func : Callable) -> None:
+        super().__init__(text, font, colors, func)
         self.surface_wait = self.font.render(self.text, SpecialButton.ANTIALIAS, self.colors[3])
         self.surface_lock = self.font.render(self.text, SpecialButton.ANTIALIAS, self.colors[4])
         self.surface_ghost = self.font.render(self.text, SpecialButton.ANTIALIAS, self.colors[5])
@@ -25,10 +25,13 @@ class SpecialButton(Button):
                 case pg.MOUSEBUTTONDOWN:
                     if not self.rect.collidepoint(event.pos):
                         self.wait, self.ghost, self.locked = False, False, False
+                        self.hover = False
+                        self.set_dirty(True)
                 case pg.KEYDOWN:
                     if event.key == 32:
                         # clear a button
                         self.wait = False
+                        self.ghost_value = ''
                         self.lock, self.locked, self.ghost, self.ghosted = False, False, False, False
                         self.set_text(self.original)
                         self.set_dirty(True)
@@ -41,9 +44,11 @@ class SpecialButton(Button):
                             self.ghost_value = event.unicode
                             self.lock, self.locked = False, False
                         elif self.lock:
+                            self.ghost_value = ''
                             self.lock = False
                             self.locked = True
                             self.ghost, self.ghosted = False, False
+                        self.func() # hacky input deny
                         self.set_text(event.unicode)
                         self.set_dirty(True)
         else:

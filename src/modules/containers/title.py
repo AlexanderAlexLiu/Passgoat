@@ -6,7 +6,9 @@ import modules.objs.colorgroups as ColorGroups
 from modules.data import GameData
 from typing import Callable
 from modules.game_states import GameStates
-
+from modules.objs.particle import Particle
+import pygame as pg
+import random
 class Title(Container):
     def __init__(self, data : GameData, change_state : Callable, quit_game : Callable, start_game : Callable) -> None:
         super().__init__()

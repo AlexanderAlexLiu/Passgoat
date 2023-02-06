@@ -62,20 +62,22 @@ class Passgoat:
     def start_game(self):
         self.objs['ingame'].reset_game()
         self.change_state(GS.INGAME)
-
+    def win(self, guess_count, answer_list):
+        self.objs['end'].set_result(answer_list, guess_count)
+        self.change_state(GS.END)
     def create_objs(self):
         self.objs = {}
         self.objs['title'] = Title(
             self.data, self.change_state, self.quit_game, self.start_game)
         self.objs['options'] = Options(self.data, self.change_state)
-        self.objs['ingame'] = InGame(self.data, self.change_state)
+        self.objs['ingame'] = InGame(self.data, self.change_state, self.win)
         self.objs['pause'] = Pause(self.data, self.change_state)
         self.objs['scores'] = Scores(self.data, self.change_state)
-        self.objs['end'] = End(self.data, self.change_state)
+        self.objs['end'] = End(self.data, self.change_state, self.clock)
 
     def handle_events(self):
         for event in pg.event.get():
-            print(event)
+            #print(event)
             match event.type:
                 case pg.QUIT:
                     self.quit_game()

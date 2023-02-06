@@ -2,6 +2,7 @@ from __future__ import annotations
 from modules.objs.textlabel import TextLabel
 import pygame as pg
 from typing import Callable
+import modules.color as COLOR
 
 
 class Button(TextLabel):
@@ -30,6 +31,8 @@ class Button(TextLabel):
             else:
                 surface.blit(self.surface, self.rect)
             self.old_rect = self.rect.copy()
+            pg.draw.rect(surface, COLOR.RED, self.rect, 1)
+            pg.draw.rect(surface, COLOR.BLACK, self.old_rect, 1)
             self.set_dirty(False)
 
     def handle_event(self, event: pg.event.Event) -> bool:

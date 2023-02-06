@@ -1,6 +1,7 @@
 from __future__ import annotations
 from modules.objs.gameobject import GameObject
 import pygame as pg
+import modules.color as COLOR
 
 
 class Image(GameObject):
@@ -11,7 +12,8 @@ class Image(GameObject):
         self.old_rect = self.rect.copy()
 
     def move(self, x: float = None, y: float = None) -> Image:
-        self.old_rect = self.rect.copy()
+        if self.dirty:
+            self.old_rect = self.rect.copy()
         if x:
             self.rect.x = x
         if y:
@@ -33,4 +35,6 @@ class Image(GameObject):
         if self.dirty:
             surface.blit(self.surface, self.rect)
             self.old_rect = self.rect.copy()
+            pg.draw.rect(surface, COLOR.RED, self.rect, 1)
+            pg.draw.rect(surface, COLOR.BLACK, self.old_rect, 1)
             self.set_dirty(False)
